@@ -10,33 +10,61 @@ namespace Restaurants
   {
     public RestaurantTest()
     {
-      DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=best_eats_tests;Integrated Security=SSPI;";
+      DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=best_eats_test;Integrated Security=SSPI;";
     }
 
     [Fact]
-    public void Test_Equal_ReturnsTrueForSameName()
+    public void Test_Equal_ReturnsTrueForSameNameIDPhoneNumber()
     {
       Restaurant firstRestaurant = new Restaurant("lardo", 1, "455");
       Restaurant secondRestaurant = new Restaurant("lardo", 1, "455");
 
       Assert.Equal(firstRestaurant,secondRestaurant);
-
-
     }
 
-    // [Fact]
-    // public void Test_CategoriesEmptyAtFirst()
-    // {
-    //   //Arrange, Act
-    //   int result = Category.GetAll().Count;
-    //
-    //   //Assert
-    //   Assert.Equal(0, result);
-    // }
+    [Fact]
+    public void Test_GetAll_RestaurantsEmptyAtFirst()
+    {
+      //Arrange, Act
+      int result = Restaurant.GetAll().Count;
+
+      //Assert
+      Assert.Equal(0, result);
+    }
+
+    [Fact]
+    public void Test_Save_SaveRestaurantstoDB()
+    {
+      Restaurant testRestaurant = new Restaurant("lardo", 1, "455");
+      testRestaurant.Save();
+
+      List<Restaurant> restaurants = Restaurant.GetAll();
+      List<Restaurant> testList = new List<Restaurant>{testRestaurant};
+
+      Assert.Equal(testList,restaurants);
+
+    }
+    [Fact]
+    public void Test_DeleteAll_DeletesRestaurantsFromDB()
+    {
+      //Arrange
+      Restaurant firstRestaurant = new Restaurant("lardo", 1, "455");
+      Restaurant secondRestaurant = new Restaurant("Chaba Thai", 1, "455");
+      firstRestaurant.Save();
+      secondRestaurant.Save();
+
+      //Act
+      Restaurant.DeleteAll();
+      int result = Restaurant.GetAll().Count;
+
+      //Assert
+      Assert.Equal(0,result);
+    }
+
     //
     public void Dispose()
     {
-      // Task.DeleteAll();
+      Restaurant.DeleteAll();
       // Category.DeleteAll();
     }
   }
