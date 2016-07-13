@@ -11,7 +11,7 @@ namespace Restaurants
     private int _cuisine_id;
     private string _phoneNumber;
 
-    public Restaurant(string Name, int Id = 0, int cuisineID, string phoneNumber)
+    public Restaurant(string Name,  int cuisineID, string phoneNumber, int Id = 0)
     {
       _id = Id;
       _name = Name;
@@ -20,8 +20,23 @@ namespace Restaurants
 
     }
 
-    public override bool Equals(System.Object otherCategory)
+    public override bool Equals(System.Object otherRestaurant)
     {
+      if (!(otherRestaurant is Restaurant ))
+      {
+        return false;
+      }
+      else
+      {
+        Restaurant newRestaurant = (Restaurant) otherRestaurant;
+        bool idEquality = this.GetId()  == newRestaurant.GetId();
+        bool nameEquality = this.GetName() == newRestaurant.GetName();
+        bool phoneEquality = this.GetPhoneNumber() == newRestaurant.GetPhoneNumber();
+        return (idEquality && nameEquality && phoneEquality);
+
+
+      }
+
 
     }
 
@@ -53,10 +68,10 @@ namespace Restaurants
     {
       _name = newName;
     }
-    public static List<Category> GetAll()
-    {
-
-    }
+    // public static List<Category> GetAll()
+    // {
+    //
+    // }
 
     // public List<Task> GetTasks()
     // {

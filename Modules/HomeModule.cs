@@ -9,8 +9,8 @@ namespace Restaurants
     public HomeModule()
     {
       Get["/"]= _ => {
-        List<Category> AllCategories = Category.GetAll();
-        return View["index.cshtml", AllCategories];
+        // List<Category> AllCategories = Category.GetAll();
+        return View["index.cshtml"];
       };
 
 
