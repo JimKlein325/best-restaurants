@@ -137,75 +137,54 @@ namespace Restaurants
     }
 
 
-    // public List<Task> GetTasks()
-    // {
-    //   SqlConnection conn = DB.Connection();
-    //   SqlDataReader rdr = null;
-    //   conn.Open();
-    //
-    //   SqlCommand cmd = new SqlCommand("SELECT * FROM tasks WHERE category_id = @CategoryId;", conn);
-    //   SqlParameter categoryIdParameter = new SqlParameter();
-    //   categoryIdParameter.ParameterName = "@CategoryId";
-    //   categoryIdParameter.Value = this.GetId();
-    //   cmd.Parameters.Add(categoryIdParameter);
-    //   rdr = cmd.ExecuteReader();
-    //
-    //   List<Task> tasks = new List<Task> {};
-    //   while(rdr.Read())
-    //   {
-    //     int taskId = rdr.GetInt32(0);
-    //     string taskDescription = rdr.GetString(1);
-    //     int taskCategoryId = rdr.GetInt32(2);
-    //     Task newTask = new Task(taskDescription, taskCategoryId, taskId);
-    //     tasks.Add(newTask);
-    //   }
-    //   if (rdr != null)
-    //   {
-    //     rdr.Close();
-    //   }
-    //   if (conn != null)
-    //   {
-    //     conn.Close();
-    //   }
-    //   return tasks;
-    // }
+
+    public void Update(string newName, int cuisine_id, string phoneNumber)
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr;
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("UPDATE restaurants SET name = @NewName,  cuisine_id = @CuisineID, phone_number = @PhoneNumber OUTPUT INSERTED.name, INSERTED.cuisine_id, INSERTED.phone_number WHERE id = @CategoryId;", conn);
+
+      SqlParameter newNameParameter = new SqlParameter();
+      newNameParameter.ParameterName = "@NewName";
+      newNameParameter.Value = newName;
+      cmd.Parameters.Add(newNameParameter);
+
+      SqlParameter cuisineIdParameter = new SqlParameter();
+      cuisineIdParameter.ParameterName = "@CuisineID";
+      cuisineIdParameter.Value = cuisine_id;
+      cmd.Parameters.Add(cuisineIdParameter);
+
+      SqlParameter phoneNumberParameter= new SqlParameter();
+      phoneNumberParameter.ParameterName = "@PhoneNumber";
+      phoneNumberParameter.Value = phoneNumber;
+      cmd.Parameters.Add(phoneNumberParameter);
 
 
-    // public void Update(string newName)
-    // {
-    //   SqlConnection conn = DB.Connection();
-    //   SqlDataReader rdr;
-    //   conn.Open();
-    //
-    //   SqlCommand cmd = new SqlCommand("UPDATE categories SET name = @NewName OUTPUT INSERTED.name WHERE id = @CategoryId;", conn);
-    //
-    //   SqlParameter newNameParameter = new SqlParameter();
-    //   newNameParameter.ParameterName = "@NewName";
-    //   newNameParameter.Value = newName;
-    //   cmd.Parameters.Add(newNameParameter);
-    //
-    //
-    //   SqlParameter categoryIdParameter = new SqlParameter();
-    //   categoryIdParameter.ParameterName = "@CategoryId";
-    //   categoryIdParameter.Value = this.GetId();
-    //   cmd.Parameters.Add(categoryIdParameter);
-    //   rdr = cmd.ExecuteReader();
-    //
-    //   while(rdr.Read())
-    //   {
-    //     this._name = rdr.GetString(0);
-    //   }
-    //
-    //   if (rdr != null)
-    //   {
-    //     rdr.Close();
-    //   }
-    //
-    //   if (conn != null)
-    //   {
-    //     conn.Close();
-    //   }
-    // }
+      SqlParameter categoryIdParameter = new SqlParameter();
+      categoryIdParameter.ParameterName = "@CategoryId";
+      categoryIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(categoryIdParameter);
+      rdr = cmd.ExecuteReader();
+
+      while(rdr.Read())
+      {
+        this._name = rdr.GetString(0);
+        this._cuisine_id = rdr.GetInt32(1);
+        this._phoneNumber = rdr.GetString(2);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
     public void Delete()
     {
       SqlConnection conn = DB.Connection();

@@ -102,7 +102,28 @@ namespace Restaurants
       Assert.Equal(testRestaurantList, resultREstaurants);
     }
 
+    [Fact]
+      public void Test_Update_UpdatesRestaurantInDatabase()
+      {
+        //Arrange
+        //Arrange
+        Restaurant firstRestaurant = new Restaurant("lardo", 0, "455");
+        Restaurant secondRestaurant = new Restaurant("Chaba Thai", 1, "455");
+        firstRestaurant.Save();
+        secondRestaurant.Save();
 
+        Restaurant result = Restaurant.Find(firstRestaurant.GetId());
+
+        //Act
+        result.Update(secondRestaurant.GetName(), secondRestaurant.GetCuisineId(), secondRestaurant.GetPhoneNumber());
+
+        Restaurant updatedResult = Restaurant.Find(firstRestaurant.GetId());
+
+        //Assert
+        Assert.Equal(secondRestaurant.GetName(), updatedResult.GetName());
+        Assert.Equal(secondRestaurant.GetCuisineId() , updatedResult.GetCuisineId());
+        Assert.Equal(secondRestaurant.GetPhoneNumber() , updatedResult.GetPhoneNumber());
+      }
     //
     public void Dispose()
     {
