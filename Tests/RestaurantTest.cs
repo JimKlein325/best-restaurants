@@ -61,6 +61,48 @@ namespace Restaurants
       Assert.Equal(0,result);
     }
 
+    [Fact]
+    public void Test_Find_FindsRestaurantAdded()
+    {
+      //Arrange
+      Restaurant firstRestaurant = new Restaurant("lardo", 0, "455");
+      Restaurant secondRestaurant = new Restaurant("Chaba Thai", 1, "455");
+      firstRestaurant.Save();
+      secondRestaurant.Save();
+
+      //Act
+      Restaurant result = Restaurant.Find(secondRestaurant.GetId());
+
+      string nameTest = result.GetName();
+      Console.WriteLine("From Find:  " + nameTest);
+
+      string gaName = Restaurant.GetAll()[1].GetName();
+      Console.WriteLine("From GetAll:  " + gaName);
+
+      //Assert
+      Assert.Equal("Chaba Thai", nameTest);
+    }
+    [Fact]
+    public void Test_Delete_DeletesRestaurantFromDB()
+    {
+      //Arrange
+      //Arrange
+      Restaurant firstRestaurant = new Restaurant("lardo", 0, "455");
+      Restaurant secondRestaurant = new Restaurant("Chaba Thai", 1, "455");
+      firstRestaurant.Save();
+      secondRestaurant.Save();
+      //Act
+      firstRestaurant.Delete();
+      List<Restaurant> resultREstaurants = Restaurant.GetAll();
+      List<Restaurant> testRestaurantList = new List<Restaurant> {secondRestaurant};
+
+
+
+      //Assert
+      Assert.Equal(testRestaurantList, resultREstaurants);
+    }
+
+
     //
     public void Dispose()
     {

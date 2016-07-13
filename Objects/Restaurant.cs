@@ -206,25 +206,25 @@ namespace Restaurants
     //     conn.Close();
     //   }
     // }
-    // public void Delete()
-    // {
-    //   SqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //
-    //   SqlCommand cmd = new SqlCommand("DELETE FROM categories WHERE id = @CategoryId; DELETE FROM tasks WHERE category_id = @CategoryId;", conn);
-    //
-    //   SqlParameter categoryIdParameter = new SqlParameter();
-    //   categoryIdParameter.ParameterName = "@CategoryId";
-    //   categoryIdParameter.Value = this.GetId();
-    //
-    //   cmd.Parameters.Add(categoryIdParameter);
-    //   cmd.ExecuteNonQuery();
-    //
-    //   if (conn != null)
-    //   {
-    //     conn.Close();
-    //   }
-    // }
+    public void Delete()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("DELETE FROM restaurants WHERE id = @id;", conn);
+
+      SqlParameter categoryIdParameter = new SqlParameter();
+      categoryIdParameter.ParameterName = "@id";
+      categoryIdParameter.Value = this.GetId();
+
+      cmd.Parameters.Add(categoryIdParameter);
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
@@ -233,38 +233,50 @@ namespace Restaurants
       cmd.ExecuteNonQuery();
     }
 
-    // public static Category Find(int id)
-    // {
-    //   SqlConnection conn = DB.Connection();
-    //   SqlDataReader rdr = null;
-    //   conn.Open();
-    //
-    //   SqlCommand cmd = new SqlCommand("SELECT * FROM categories WHERE id = @CategoryId;", conn);
-    //   SqlParameter categoryIdParameter = new SqlParameter();
-    //   categoryIdParameter.ParameterName = "@CategoryId";
-    //   categoryIdParameter.Value = id.ToString();
-    //   cmd.Parameters.Add(categoryIdParameter);
-    //   rdr = cmd.ExecuteReader();
-    //
-    //   int foundCategoryId = 0;
-    //   string foundCategoryDescription = null;
-    //
-    //   while(rdr.Read())
-    //   {
-    //     foundCategoryId = rdr.GetInt32(0);
-    //     foundCategoryDescription = rdr.GetString(1);
-    //   }
-    //   Category foundCategory = new Category(foundCategoryDescription, foundCategoryId);
-    //
-    //   if (rdr != null)
-    //   {
-    //     rdr.Close();
-    //   }
-    //   if (conn != null)
-    //   {
-    //     conn.Close();
-    //   }
-    //   return foundCategory;
-    // }
+    public static Restaurant Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr = null;
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM restaurants  WHERE id = @RestaurantId;", conn);
+      SqlParameter idParameter = new SqlParameter();
+      idParameter.ParameterName = "@RestaurantId";
+      idParameter.Value = id.ToString();
+      cmd.Parameters.Add(idParameter);
+      rdr = cmd.ExecuteReader();
+
+      string foundRestaurantName = null;
+      int foundRestaurantCuisineId = 0;
+      string foundRestaurantPhoneNumber = null;
+      int foundRestaurantId = 0;
+
+
+      while(rdr.Read())
+      {
+        foundRestaurantName = rdr.GetString(0);
+        Console.WriteLine("hello");
+        foundRestaurantCuisineId = rdr.GetInt32(1);
+        foundRestaurantPhoneNumber = rdr.GetString(2);
+        foundRestaurantId = rdr.GetInt32(3);
+        Console.WriteLine(foundRestaurantId.ToString());
+      }
+      Restaurant foundRestaurant = new Restaurant(
+        foundRestaurantName,
+        foundRestaurantCuisineId,
+        foundRestaurantPhoneNumber,
+        foundRestaurantId
+      );
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundRestaurant;
+    }
   }
 }
