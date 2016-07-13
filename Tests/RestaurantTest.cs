@@ -128,7 +128,6 @@ namespace Restaurants
     public void Dispose()
     {
       Restaurant.DeleteAll();
-      // Category.DeleteAll();
     }
   }
 }
