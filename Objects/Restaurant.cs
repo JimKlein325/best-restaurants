@@ -64,6 +64,10 @@ namespace Restaurants
     {
       _name = newName;
     }
+    public string GetCuisine()
+    {
+      return Cuisine.Find(_cuisine_id).GetName();
+    }
     public static List<Restaurant> GetAll()
     {
       List<Restaurant> restaurants =  new List<Restaurant>{};

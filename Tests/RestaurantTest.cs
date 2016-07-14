@@ -124,6 +124,23 @@ namespace Restaurants
         Assert.Equal(secondRestaurant.GetCuisineId() , updatedResult.GetCuisineId());
         Assert.Equal(secondRestaurant.GetPhoneNumber() , updatedResult.GetPhoneNumber());
       }
+
+      [Fact]
+      public void Test_GetCuisine_ReturnsNameForInputID()
+      {
+
+        //Arrange
+        Cuisine firstCuisine = new Cuisine("Thai");
+        firstCuisine.Save();
+
+        Restaurant firstRestaurant = new Restaurant("lardo", firstCuisine.GetId(), "455");
+
+        //Act
+        string result = firstRestaurant.GetCuisine();
+
+        Assert.Equal("Thai",result);
+      }
+
     //
     public void Dispose()
     {
