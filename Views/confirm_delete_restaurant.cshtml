@@ -1,0 +1,7 @@
+<h1>Are you sure you want to delete this restaurant?</h1>
+<h4>@Model.GetName()</h4>
+<form action="/restaurants/delete/@Model.GetId().ToString()" method="post">
+  <input type="hidden" name="_method" value="DELETE">
+  <button type="submit">Delete</button>
+</form>
+<p><a href="/">Back home</a></p>
